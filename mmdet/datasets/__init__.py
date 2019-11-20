@@ -1,4 +1,4 @@
-from .builder import build_dataset
+from .builder import build_dataset, build_sidewalk_dataset
 from .cityscapes import CityscapesDataset
 from .coco import CocoDataset
 from .custom import CustomDataset
@@ -8,10 +8,13 @@ from .registry import DATASETS
 from .voc import VOCDataset
 from .wider_face import WIDERFaceDataset
 from .xml_style import XMLDataset
+from .sidewalk_bbox import SideWalkBBoxDataset
+from .sidewalk_polygon import SideWalkPolygonDataset
 
 __all__ = [
     'CustomDataset', 'XMLDataset', 'CocoDataset', 'VOCDataset',
     'CityscapesDataset', 'GroupSampler', 'DistributedGroupSampler',
     'build_dataloader', 'ConcatDataset', 'RepeatDataset', 'WIDERFaceDataset',
-    'DATASETS', 'build_dataset'
+    'DATASETS', 'build_dataset', 'build_sidewalk_dataset',
+    'SideWalkBBoxDataset', 'SideWalkPolygonDataset'
 ]

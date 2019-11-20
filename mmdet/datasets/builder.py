@@ -1,4 +1,6 @@
 import copy
+import os
+import os.path as osp
 
 from mmdet.utils import build_from_cfg
 from .dataset_wrappers import ConcatDataset, RepeatDataset
@@ -25,6 +27,35 @@ def _concat_dataset(cfg, default_args=None):
         datasets.append(build_dataset(data_cfg, default_args))
 
     return ConcatDataset(datasets)
+
+
+def build_sidewalk_dataset(cfg, mode='train', custom_postfix=''):
+    assert mode in ['train', 'val', 'test']
+    assert cfg['type'] == 'SideWalkBBoxDataset' \
+        or cfg['type'] == 'SideWalkPolygonDataset'
+    # assign ann_files and img_prefixes
+    data_cfg = cfg.copy()
+    if cfg['type'] == 'SideWalkBBoxDataset':
+        data_root = osp.join(data_cfg.pop('data_root'), mode + custom_postfix)
+        dir_list = [
+            path for path in os.listdir(data_root)
+            if osp.isdir(osp.join(data_root, path))
+        ]
+        dir_list.sort()
+        ann_file_list = [
+            osp.join(data_root, folder, folder + '.xml') for folder in dir_list
+        ]
+        img_prefix_list = [
+            osp.join(data_root, folder) + '/' for folder in dir_list
+        ]
+
+        data_cfg['ann_file'] = ann_file_list
+        data_cfg['img_prefix'] = img_prefix_list
+    else:
+        # SideWalkPolygonDataset
+        data_cfg['img_prefix'] = data_cfg['img_prefix'] + custom_postfix
+
+    return build_dataset(data_cfg)
 
 
 def build_dataset(cfg, default_args=None):

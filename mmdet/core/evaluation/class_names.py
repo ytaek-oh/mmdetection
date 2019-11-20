@@ -82,6 +82,17 @@ def coco_classes():
     ]
 
 
+def sidewalk_classes():
+    return [
+        'barricade', 'bench', 'bicycle', 'bollard', 'bus', 'car', 'carrier',
+        'cat', 'chair', 'dog', 'fire_hydrant', 'kiosk', 'motorcycle',
+        'movable_signage', 'parking_meter', 'person', 'pole', 'potted_plant',
+        'power_controller', 'scooter', 'stop', 'stroller', 'table',
+        'traffic_light', 'traffic_light_controller', 'traffic_sign',
+        'tree_trunk', 'truck', 'wheelchair'
+    ]
+
+
 def cityscapes_classes():
     return [
         'person', 'rider', 'car', 'truck', 'bus', 'train', 'motorcycle',
@@ -95,7 +106,8 @@ dataset_aliases = {
     'imagenet_vid': ['vid', 'imagenet_vid', 'ilsvrc_vid'],
     'coco': ['coco', 'mscoco', 'ms_coco'],
     'wider_face': ['WIDERFaceDataset', 'wider_face', 'WDIERFace'],
-    'cityscapes': ['cityscapes']
+    'cityscapes': ['cityscapes'],
+    'sidewalk': ['SideWalkBBoxDataset', 'SideWalkPolygonDataset']
 }
 
 
