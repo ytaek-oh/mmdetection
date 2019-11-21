@@ -8,9 +8,8 @@ from mmcv.runner import DistSamplerSeedHook, Runner, obj_from_dict
 
 from mmdet import datasets
 from mmdet.core import (CocoDistEvalmAPHook, CocoDistEvalRecallHook,
-                        DistEvalmAPHook, DistOptimizerHook, Fp16OptimizerHook,
-                        SideWalkBBoxDistEvalmAPHook)
-from mmdet.datasets import DATASETS, build_dataloader, build_sidewalk_dataset
+                        DistEvalmAPHook, DistOptimizerHook, Fp16OptimizerHook)
+from mmdet.datasets import DATASETS, build_dataloader, build_dataset
 from mmdet.models import RPN
 from .env import get_root_logger
 
@@ -179,23 +178,16 @@ def _dist_train(model, dataset, cfg, validate=False):
                 CocoDistEvalRecallHook(val_dataset_cfg, **eval_cfg))
         else:
             dataset_type = DATASETS.get(val_dataset_cfg.type)
-            if val_dataset_cfg.type == 'SideWalkPolygonDataset':
-                val_dataset = build_sidewalk_dataset(
-                    val_dataset_cfg, mode='val')
+            if val_dataset_cfg.type == 'SideWalkDataset':
+                val_dataset = build_dataset(val_dataset_cfg)
                 runner.register_hook(
                     CocoDistEvalmAPHook(val_dataset, **eval_cfg))
             elif issubclass(dataset_type, datasets.CocoDataset):
                 runner.register_hook(
                     CocoDistEvalmAPHook(val_dataset_cfg, **eval_cfg))
             else:
-                if issubclass(dataset_type, datasets.SideWalkBBoxDataset):
-                    val_dataset = build_sidewalk_dataset(
-                        val_dataset_cfg, mode='val')
-                    runner.register_hook(
-                        SideWalkBBoxDistEvalmAPHook(val_dataset, **eval_cfg))
-                else:
-                    runner.register_hook(
-                        DistEvalmAPHook(val_dataset_cfg, **eval_cfg))
+                runner.register_hook(
+                    DistEvalmAPHook(val_dataset_cfg, **eval_cfg))
 
     if cfg.resume_from:
         runner.resume(cfg.resume_from)

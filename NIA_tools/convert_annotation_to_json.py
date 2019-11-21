@@ -81,7 +81,6 @@ class XMLProcessor():
         annotations = []
         if dataset_type == 'bbox':
             dataset_type = 'box'
-            bboxes = [] # noqa
         else:
             points = []
             groups = []
@@ -106,7 +105,21 @@ class XMLProcessor():
                 groups.append(group_id)
                 labels.append(label)
             else:
-                pass
+                xtl = float('{:.2f}'.format(float(attrib['xtl'])))
+                ytl = float('{:.2f}'.format(float(attrib['ytl'])))
+                xbr = float('{:.2f}'.format(float(attrib['xbr'])))
+                ybr = float('{:.2f}'.format(float(attrib['ybr'])))
+
+                w = float('{:.2f}'.format(float(xbr - xtl + 1)))
+                h = float('{:.2f}'.format(float(ybr - ytl + 1)))
+                bbox = [xtl, ytl, w, h]
+                anno_dict = dict(
+                    category_id=label,
+                    segmentation=[],
+                    area=w * h,
+                    bbox=bbox,
+                    iscrowd=0)
+                annotations.append(anno_dict)
 
         if dataset_type == 'polygon':
             segmentations, labels = self.group_polygon(points, groups, labels)
@@ -122,8 +135,6 @@ class XMLProcessor():
                     bbox=bbox,
                     iscrowd=0)
                 annotations.append(anno_dict)
-        else:
-            pass
 
         return annotations
 
@@ -156,7 +167,7 @@ class XMLProcessor():
                 categories = dict_item['categories']
                 category_set = set(categories)
 
-                assert len(category_set) == 1
+                # assert len(category_set) == 1
                 category_id = category_set.pop()
                 done_group.append(group)
             else:
@@ -203,7 +214,10 @@ def convert_annotations(img_location, ann_location, split_type, dataset_type):
     prog_bar = mmcv.ProgressBar(len(image_folder_list))
     for image_folder in image_folder_list:
         xml_list = glob.glob(osp.join(image_folder, '*.xml'))
-        assert len(xml_list) == 1
+        assert len(
+            xml_list
+        ) == 1, 'There are multiple, or no annotation file in: {}'.format(
+            image_folder)  # noqa
         xml_ann = xml_list[0]
         xp = XMLProcessor(xml_ann, dataset_type)
         for img_info in xp.img_infos:
@@ -239,7 +253,7 @@ def convert_annotations(img_location, ann_location, split_type, dataset_type):
 
 def main():
     args = parse_args()
-    assert args.dataset_type == 'bbox' or args.dataset_type == 'polygon'
+    assert args.dataset_type == 'bbox' or args.dataset_type == 'polygon', 'Options should be either "bbox" or "polygon".'  # noqa
 
     # target directory construction for dataset
     target_location = 'data/sidewalk_dataset'
@@ -260,11 +274,13 @@ def main():
 
     image_folder_list = glob.glob(osp.join(image_location, '*'))
     image_folder_list.sort(reverse=False)
-    assert len(image_folder_list) > 0
+    assert len(image_folder_list) > 0, 'There are no image folders in: {}'.format(image_location) # noqa
 
+    # random train / val/ test split
     random.shuffle(image_folder_list)
 
     num_valid = int(len(image_folder_list) * 0.05)
+    assert num_valid > 0, 'Dataset is not enough.'
     num_test = int(len(image_folder_list) * 0.15)
     num_train = len(image_folder_list) - num_valid - num_test
 

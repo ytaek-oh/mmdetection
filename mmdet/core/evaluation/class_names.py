@@ -107,7 +107,7 @@ dataset_aliases = {
     'coco': ['coco', 'mscoco', 'ms_coco'],
     'wider_face': ['WIDERFaceDataset', 'wider_face', 'WDIERFace'],
     'cityscapes': ['cityscapes'],
-    'sidewalk': ['SideWalkBBoxDataset', 'SideWalkPolygonDataset']
+    'sidewalk': ['SideWalkDataset']
 }
 
 

@@ -63,14 +63,14 @@ def coco_eval(result_files,
                 # area range index 0: all area ranges
                 # max dets index -1: typically 100 per image
                 nm = coco.loadCats(catId)[0]
-                precision = precisions[:, :, idx, 0, -1]
+                precision = precisions[0, :, idx, 0, -1]
                 precision = precision[precision > -1]
                 ap = np.mean(precision) if precision.size else float('nan')
                 results_per_category.append(
                     ('{}'.format(nm['name']),
                      '{:0.3f}'.format(float(ap * 100))))
 
-            N_COLS = min(6, len(results_per_category) * 2)
+            N_COLS = min(2, len(results_per_category) * 2)
             results_flatten = list(itertools.chain(*results_per_category))
             headers = ['category', 'AP'] * (N_COLS // 2)
             results_2d = itertools.zip_longest(

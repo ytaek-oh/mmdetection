@@ -95,7 +95,8 @@ def show_result(img,
                 score_thr=0.3,
                 wait_time=0,
                 show=True,
-                out_file=None):
+                out_file=None,
+                **kwargs):
     """Visualize the detection results on the image.
 
     Args:
@@ -143,7 +144,8 @@ def show_result(img,
         score_thr=score_thr,
         show=show,
         wait_time=wait_time,
-        out_file=out_file)
+        out_file=out_file,
+        **kwargs)
     if not (show or out_file):
         return img
 

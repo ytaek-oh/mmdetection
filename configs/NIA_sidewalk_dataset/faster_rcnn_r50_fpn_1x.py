@@ -98,8 +98,8 @@ test_cfg = dict(
     # e.g., nms=dict(type='soft_nms', iou_thr=0.5, min_score=0.05)
 )
 # dataset settings
-dataset_type = 'SideWalkBBoxDataset'
-data_root = 'data/sidewalk_bbox/'
+dataset_type = 'SideWalkDataset'
+data_root = 'data/sidewalk_dataset/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -132,15 +132,18 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        data_root=data_root,
+        ann_file=data_root + 'annotations/bbox_train.json',
+        img_prefix=data_root + 'images_bbox/train/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        data_root=data_root,
+        ann_file=data_root + 'annotations/bbox_val.json',
+        img_prefix=data_root + 'images_bbox/val/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        data_root=data_root,
+        ann_file=data_root + 'annotations/bbox_test.json',
+        img_prefix=data_root + 'images_bbox/test/',
         pipeline=test_pipeline))
 # optimizer
 optimizer = dict(type='SGD', lr=0.02, momentum=0.9, weight_decay=0.0001)
@@ -151,7 +154,7 @@ lr_config = dict(
     warmup='linear',
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
-    step=[8, 11])
+    step=[6, 9])
 checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
@@ -163,7 +166,7 @@ log_config = dict(
 # yapf:enable
 # runtime settings
 evaluation = dict(interval=1)
-total_epochs = 2
+total_epochs = 10
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/faster_rcnn_r50_fpn_1x'

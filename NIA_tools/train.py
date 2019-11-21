@@ -8,7 +8,7 @@ from mmcv import Config
 from mmdet import __version__
 from mmdet.apis import (get_root_logger, init_dist, set_random_seed,
                         train_detector)
-from mmdet.datasets import build_sidewalk_dataset
+from mmdet.datasets import build_dataset
 from mmdet.models import build_detector
 
 
@@ -83,8 +83,7 @@ def main():
     model = build_detector(
         cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)
 
-    train_dataset = build_sidewalk_dataset(
-        cfg.data.train, mode='train', custom_postfix='')
+    train_dataset = build_dataset(cfg.data.train)
     if cfg.checkpoint_config is not None:
         # save mmdet version, config file content and class names in
         # checkpoints as meta data

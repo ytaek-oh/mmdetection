@@ -112,7 +112,7 @@ test_cfg = dict(
         max_per_img=100,
         mask_thr_binary=0.5))
 # dataset settings
-dataset_type = 'SideWalkPolygonDataset'
+dataset_type = 'SideWalkDataset'
 data_root = 'data/sidewalk_dataset/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -168,7 +168,7 @@ lr_config = dict(
     warmup='linear',
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
-    step=[8, 11])
+    step=[12, 16])
 checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
@@ -180,7 +180,7 @@ log_config = dict(
 # yapf:enable
 evaluation = dict(interval=1)
 # runtime settings
-total_epochs = 2
+total_epochs = 18
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/mask_rcnn_r50_fpn_1x'
