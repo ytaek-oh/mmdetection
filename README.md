@@ -14,7 +14,7 @@ NIA 인도보행영상 객체인식 데이터셋 학습 및 테스트를 위한 
 인도보행 객체인식 데이터셋 모델 학습 및 테스트 튜토리얼은 [GETTING_STARTED.md](./docs/GETTING_STARTED.md)을 참조하세요. 
 
 ## Benchmark
-인도보행영상 객체인식 데이터셋으로 학습한 모델의 최종 AP-50 성능과 학습된 모델 다운로드 링크는 [BENCHMARK.md](./BENCHMARK.md)을 참조하세요. 
+인도보행영상 객체인식 데이터셋으로 학습한 모델의 최종 AP-50 성능과 학습된 모델 다운로드 링크는 [BENCHMARK.md](./docs/BENCHMARK.md)을 참조하세요. 
 
 ## Citation
 
