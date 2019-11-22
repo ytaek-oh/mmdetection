@@ -63,23 +63,13 @@ python NIA_tools/convert_annotation_to_json.py ${IMAGE_FOLDER} --dataset_type ${
   
 ```
 ${IMAGE_FOLDER}
-├── mmdet
-├── tools
-├── configs
-├── data
-│   ├── coco
-│   │   ├── annotations
-│   │   ├── train2017
-│   │   ├── val2017
-│   │   ├── test2017
-│   ├── cityscapes
-│   │   ├── annotations
-│   │   ├── train
-│   │   ├── val
-│   ├── VOCdevkit
-│   │   ├── VOC2007
-│   │   ├── VOC2012
-
+├── P0813_14
+│   ├── P0813_14.xml
+│   ├── MP_SEL_P000001.jpg
+│   ├── ...
+│   ├── MP_SEL_P000300.jpg
+├── ...
+├──  PN0914_01
 ```
 어노테이션 변환 코드는 데이터셋의 이미지 폴더 일부분에 대해서도 작동합니다. 
 
