@@ -26,8 +26,8 @@
 ## 학습된 모델 성능 및 다운로드 링크
 
 
-|    Backbone     |  Style  | Lr schd |  box AP-50 | mask AP-50 |                                                             Download                                                             |
-| :-------------: | :-----: | :-----: | :------: | :-----------------: | :------------: | :----: | :-----: | :------------------------------------------------------------------------------------------------------------------------------: |
-|     Faster R-CNN R-50-FPN     |  pytorch |   1x    |  0.791  |  -   |      [model](https://drive.google.com/file/d/1ZWhZL_ZiwQub9ZtoNjNzLXjgLHwbF4Wm/view?usp=sharing)       |
-|     Mask R-CNN R-50-FPN     |  pytorch |   1x           |  0.670  |  0.622   |      [model](https://drive.google.com/file/d/1ZXxtM993SibrDhHDhl9cIJ4-EJnn6i6I/view?usp=sharing)       |
+| Backbone | Style | Lr scedule | bbox AP-50 | mask AP-50 | Download |
+|--|--|--|--|--|--|
+| Faster R-CNN R-50 FPN | pytorch | 1x | 0.791 | - | [model](https://drive.google.com/file/d/1ZWhZL_ZiwQub9ZtoNjNzLXjgLHwbF4Wm/view?usp=sharing) |
+| Mask R-CNN R-50-FPN | pytorch | 1x | 0.670 | 0.622 | [model](https://drive.google.com/file/d/1ZXxtM993SibrDhHDhl9cIJ4-EJnn6i6I/view?usp=sharing)    |
 
