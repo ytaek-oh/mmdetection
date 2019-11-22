@@ -2,60 +2,40 @@
 
 ### Requirements
 
-- Linux (Windows is not officially supported)
-- Python 3.5+ (Python 2 is not supported)
-- PyTorch 1.1 or higher
-- CUDA 9.0 or higher
-- NCCL 2
-- GCC(G++) 4.9 or higher
-- [mmcv](https://github.com/open-mmlab/mmcv)
-
-We have tested the following versions of OS and softwares:
-
-- OS: Ubuntu 16.04/18.04 and CentOS 7.2
-- CUDA: 9.0/9.2/10.0
-- NCCL: 2.1.15/2.2.13/2.3.7/2.4.2
-- GCC(G++): 4.9/5.3/5.4/7.3
+설치환경 및 자세한 설명은 [mmdetection INSTALL.md](https://github.com/open-mmlab/mmdetection/blob/master/docs/INSTALL.md)을 참조하세요. 
 
 ### Install mmdetection
 
-a. Create a conda virtual environment and activate it.
+a. conda 가상환경 생성
 
 ```shell
-conda create -n open-mmlab python=3.7 -y
-conda activate open-mmlab
+conda create -n sidewalk python=3.7 -y
+conda activate sidewalk
 ```
 
-b. Install PyTorch stable or nightly and torchvision following the [official instructions](https://pytorch.org/), e.g.,
+b. pytorch 설치
 
 ```shell
 conda install pytorch torchvision -c pytorch
 ```
 
-c. Clone the mmdetection repository.
+c. 저장소 다운로드
 
 ```shell
-git clone https://github.com/open-mmlab/mmdetection.git
+git clone https://github.com/ytaek-oh/mmdetection.git
 cd mmdetection
 ```
 
-d. Install mmdetection (other dependencies will be installed automatically).
+d. mmdetection 설치
 
 ```shell
 python setup.py develop
 # or "pip install -v -e ."
 ```
 
-Note:
-
-1. The git commit id will be written to the version number with step d, e.g. 0.6.0+2e7045c. The version will also be saved in trained models.
-It is recommended that you run step d each time you pull some updates from github. If C/CUDA codes are modified, then this step is compulsory.
-
-2. Following the above instructions, mmdetection is installed on `dev` mode, any local modifications made to the code will take effect without the need to reinstall it (unless you submit some commits and want to update the version number).
-
 ### Another option: Docker Image
 
-We provide a [Dockerfile](../docker/Dockerfile) to build an image.
+[Dockerfile](../docker/Dockerfile) 로부터 빌드하기
 
 ```shell
 # build an image with PyTorch 1.1, CUDA 10.0 and CUDNN 7.5
@@ -63,12 +43,26 @@ docker build -t mmdetection docker/
 ```
 
 ### Prepare datasets
+데이터셋 다운로드: [http://www.aihub.or.kr/content/611](http://www.aihub.or.kr/content/611)
 
-It is recommended to symlink the dataset root to `$MMDETECTION/data`.
-If your folder structure is different, you may need to change the corresponding paths in config files.
+`NIA_tools/convert_annotation_to_json.py` 파일을 통해
 
+ 1. 데이터셋 (ex: 바운딩박스, 폴리곤)을 train / validation / split으로 자동으로 나누고,
+ 2. xml 어노테이션을 학습에 적합한 json 어노테이션 포멧으로 변환하고,
+ 3. mmdetection 프로젝트 내 data 폴더로 바로가기 링크를 만듭니다.
+
+```shell
+python NIA_tools/convert_annotation_to_json.py ${IMAGE_FOLDER} --dataset_type ${DATASET}
 ```
-mmdetection
+파라미터 설명:
+
+ - `IMAGE_FOLDER`: 다운로드 받은 데이터셋이 위치한 경로입니다.
+ - `DATASET`: 변환할 데이터셋 타입을 지정합니다. bbox와 polygon 중 하나를 입력으로 받습니다. 
+
+`IMAGE_FOLDER` 경로에 다운로드 받은 데이터셋 디렉토리 트리 구조는 아래와 같아야 합니다. (추후 수정)
+  
+```
+${IMAGE_FOLDER}
 ├── mmdet
 ├── tools
 ├── configs
@@ -87,30 +81,7 @@ mmdetection
 │   │   ├── VOC2012
 
 ```
-The cityscapes annotations have to be converted into the coco format using the [cityscapesScripts](https://github.com/mcordts/cityscapesScripts) toolbox.
-We plan to provide an easy to use conversion script. For the moment we recommend following the instructions provided in the 
-[maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark/tree/master/maskrcnn_benchmark/data) toolbox. When using this script all images have to be moved into the same folder. On linux systems this can e.g. be done for the train images with:
-```shell
-cd data/cityscapes/
-mv train/*/* train/
-```
+어노테이션 변환 코드는 데이터셋의 이미지 폴더 일부분에 대해서도 작동합니다. 
 
-### Scripts
+변환이 끝난 데이터는 `data/` 에서 확인할 수 있습니다. 
 
-[Here](https://gist.github.com/hellock/bf23cd7348c727d69d48682cb6909047) is
-a script for setting up mmdetection with conda.
-
-### Multiple versions
-
-If there are more than one mmdetection on your machine, and you want to use them alternatively, the recommended way is to create multiple conda environments and use different environments for different versions.
-
-Another way is to insert the following code to the main scripts (`train.py`, `test.py` or any other scripts you run)
-```python
-import os.path as osp
-import sys
-sys.path.insert(0, osp.join(osp.dirname(osp.abspath(__file__)), '../'))
-```
-or run the following command in the terminal of corresponding folder.
-```shell
-export PYTHONPATH=`pwd`:$PYTHONPATH
-```
