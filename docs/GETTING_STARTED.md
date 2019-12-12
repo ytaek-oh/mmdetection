@@ -19,10 +19,12 @@
 
 ```shell
 # single-gpu testing
-python NIA_tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}] [--show]
+python NIA_tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} \
+    [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}] [--show]
 
 # multi-gpu testing
-./NIA_tools/dist_test.sh ${CONFIG_FILE} ${CHECKPOINT_FILE} ${GPU_NUM} [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}]
+./NIA_tools/dist_test.sh ${CONFIG_FILE} ${CHECKPOINT_FILE} ${GPU_NUM} \
+    [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}]
 ```
 
 파라미터 설명:
