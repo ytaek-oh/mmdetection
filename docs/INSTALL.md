@@ -59,7 +59,7 @@ python NIA_tools/convert_annotation_to_json.py ${IMAGE_FOLDER} --dataset_type ${
  - `IMAGE_FOLDER`: 다운로드 받은 데이터셋이 위치한 경로입니다.
  - `DATASET`: 변환할 데이터셋 타입을 지정합니다. bbox와 polygon 중 하나를 입력으로 받습니다. 
 
-`IMAGE_FOLDER` 경로에 다운로드 받은 데이터셋 디렉토리 트리 구조는 아래와 같아야 합니다. (추후 수정)
+`IMAGE_FOLDER` 경로에 다운로드 받은 데이터셋 디렉토리 트리 구조는 아래와 같아야 합니다.
   
 ```
 ${IMAGE_FOLDER}
